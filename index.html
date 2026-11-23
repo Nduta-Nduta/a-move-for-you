@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A Move For You ♟</title>
+
+    <!-- Vintage font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>A Move For You ♟</h1>
+
+        <p class="instruction">
+            Some moves are made with the heart.
+        </p>
+
+        <section class="chess-section">
+
+            <p class="chess-instruction">
+                Every story begins with a move...
+            </p>
+
+            <!-- Chessboard -->
+            <div class="chessboard" id="chessboard">
+            </div>
+
+            <!-- Messages after moves -->
+            <p class="move-message" id="moveMessage"></p>
+
+            <!-- Queen capture reveal -->
+            <div class="queen-reveal" id="queenReveal" hidden>
+
+                <p class="dramatic-message">
+                    Checkmate. You've captured something much more valuable than a queen...
+                </p>
+
+                <button id="claimButton">
+                    Claim your prize ♡
+                </button>
+
+            </div>
+
+            <!-- Luxury envelope and love letter -->
+            <div class="letter-container" id="letterContainer" hidden>
+
+                <div class="envelope" id="envelope">
+
+                    <!-- The letter tucked inside -->
+                    <div class="letter" id="letter">
+
+                        <h2>My Sun and Stars,</h2>
+
+                        <p>
+                            I know we're human. We'll have our imperfect days,
+                            our differences, and moments when loving each other
+                            isn't easy.
+                        </p>
+
+                        <p>
+                            But I choose you. Through both the beautiful and
+                            the difficult. Us against the world, through every
+                            season life brings.
+                        </p>
+
+                        <p>
+                            I want to love you through this lifetime, and if
+                            forever means anything, I hope it's you and me
+                            until death do us part.
+                        </p>
+
+                        <p class="letter-signature">
+                            With all my heart. ♡
+                        </p>
+
+                    </div>
+
+                    <!-- Front of the envelope -->
+                    <div class="envelope-front"></div>
+
+                    <!-- Opening flap -->
+                    <div class="envelope-flap"></div>
+
+                    <!-- Gold wax seal -->
+                    <div class="envelope-seal">
+                        ♡
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
+

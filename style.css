@@ -1,0 +1,597 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=IM+Fell+English&display=swap');
+
+:root {
+    --winter-black: #111820;
+    --castle-charcoal: #202a35;
+    --deep-stone: #293744;
+    --winter-silver: #aebbc5;
+    --frosted-ivory: #d8d9d3;
+    --northern-steel: #647989;
+    --ice-blue: #a9c1d1;
+    --parchment: #e8d9b9;
+    --ink: #33291f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 35px 16px 70px;
+    color: var(--frosted-ivory);
+    font-family: 'Cormorant Garamond', serif;
+    background:
+        radial-gradient(ellipse at 50% 0%, #344453 0%, transparent 48%),
+        radial-gradient(ellipse at 10% 90%, #263746 0%, transparent 45%),
+        linear-gradient(145deg, #0c1219, #18232e 55%, #0b1118);
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+    text-align: center;
+}
+
+h1 {
+    margin: 0 0 10px;
+    color: #d4d7d6;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 6vw, 46px);
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-shadow:
+        0 2px 3px #000,
+        0 0 22px rgba(174, 187, 197, 0.25);
+}
+
+.instruction {
+    margin: 0 0 45px;
+    color: #aab8c2;
+    font-size: 20px;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.chess-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chess-instruction {
+    margin: 0 0 22px;
+    color: #b9c3ca;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* WINTERFELL CHESSBOARD */
+
+.chessboard {
+    width: min(100%, 560px);
+    aspect-ratio: 1 / 1;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    overflow: hidden;
+    border: 9px solid #687887;
+    border-radius: 5px;
+    outline: 2px solid #aebbc5;
+    outline-offset: 4px;
+    background: var(--castle-charcoal);
+    box-shadow:
+        0 0 0 1px #111820,
+        0 0 0 8px rgba(95, 113, 128, 0.35),
+        0 18px 45px rgba(0, 0, 0, 0.75),
+        inset 0 0 18px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.chess-square {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: filter 0.2s ease, background-color 0.2s ease;
+}
+
+.ivory-square {
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.12), transparent 55%),
+        repeating-linear-gradient(
+            135deg,
+            transparent 0px,
+            transparent 8px,
+            rgba(65, 76, 83, 0.045) 9px,
+            transparent 10px
+        ),
+        #b9c3c8;
+}
+
+.stone-square {
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.035), transparent 60%),
+        repeating-linear-gradient(
+            45deg,
+            transparent 0px,
+            transparent 9px,
+            rgba(0,0,0,0.12) 10px,
+            transparent 11px
+        ),
+        #263543;
+}
+
+.chess-square::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.3;
+    background:
+        radial-gradient(
+            ellipse at 25% 20%,
+            rgba(255,255,255,0.15),
+            transparent 45%
+        );
+}
+
+.chess-square:hover {
+    filter: brightness(1.16);
+}
+
+/* CHESS PIECES */
+
+.piece-symbol {
+    width: 88%;
+    height: 92%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.piece-art {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.white-symbol .piece-art {
+    filter:
+        drop-shadow(0 2px 2px rgba(0,0,0,0.8))
+        drop-shadow(0 0 5px rgba(220,230,235,0.2));
+}
+
+.black-symbol .piece-art {
+    filter:
+        drop-shadow(0 3px 3px rgba(0,0,0,0.9))
+        drop-shadow(0 0 4px rgba(174,187,197,0.12));
+}
+
+.special-knight .piece-symbol {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 0 8px rgba(191, 219, 236, 0.8));
+}
+
+/* PIECE HIGHLIGHTS */
+
+.selected-piece {
+    background: #718b9c !important;
+    box-shadow:
+        inset 0 0 0 4px #d7e2e8,
+        inset 0 0 22px rgba(225, 240, 250, 0.4);
+}
+
+.possible-move {
+    background: rgba(128, 159, 181, 0.8) !important;
+    box-shadow: inset 0 0 0 3px rgba(221, 232, 240, 0.75);
+}
+
+.possible-move::after {
+    content: "";
+    width: 20%;
+    height: 20%;
+    border-radius: 50%;
+    background: #d9e7ef;
+    box-shadow: 0 0 12px rgba(219, 237, 248, 0.8);
+    position: absolute;
+    z-index: 3;
+}
+
+.possible-move.occupied-square::after {
+    width: 84%;
+    height: 84%;
+    background: transparent;
+    border: 4px solid rgba(215, 230, 239, 0.85);
+}
+
+/* MOVE MESSAGES */
+
+.move-message {
+    min-height: 34px;
+    margin: 24px 0;
+    color: #c4d1d9;
+    font-family: 'IM Fell English', serif;
+    font-size: 21px;
+    font-style: italic;
+    text-shadow: 0 2px 5px #000;
+}
+
+/* QUEEN CAPTURE REVEAL */
+
+.queen-reveal {
+    width: min(100%, 560px);
+    margin: 20px auto;
+    padding: 30px 22px;
+    border: 1px solid #8093a1;
+    background:
+        linear-gradient(145deg, rgba(93, 113, 129, 0.2), transparent),
+        rgba(14, 22, 30, 0.92);
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.45),
+        inset 0 0 20px rgba(174,187,197,0.06);
+}
+
+.dramatic-message {
+    color: #e0d8c8;
+    font-family: 'IM Fell English', serif;
+    font-size: 23px;
+    line-height: 1.6;
+}
+
+/* BUTTONS */
+
+button {
+    padding: 12px 25px;
+    border: 1px solid #9aaab5;
+    border-radius: 2px;
+    background: linear-gradient(145deg, #465969, #253541);
+    color: #f0eee8;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow:
+        0 5px 15px rgba(0,0,0,0.4),
+        inset 0 1px rgba(255,255,255,0.15);
+    transition: all 0.25s ease;
+}
+
+button:hover:not(:disabled) {
+    background: linear-gradient(145deg, #71899a, #3c5363);
+    border-color: #e0e7ea;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(0,0,0,0.5);
+}
+
+button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* WINTERFELL ENVELOPE */
+
+.letter-container {
+    width: min(100%, 560px);
+    margin: 65px auto 50px;
+    perspective: 1400px;
+}
+
+.envelope {
+    width: min(100%, 460px);
+    min-height: 300px;
+    margin: 0 auto;
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+    border: 2px solid #879aa8;
+    background:
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,0.025) 0px,
+            rgba(255,255,255,0.025) 2px,
+            transparent 2px,
+            transparent 7px
+        ),
+        linear-gradient(145deg, #344655, #17232e 65%, #293b49);
+    box-shadow:
+        0 22px 55px rgba(0,0,0,0.7),
+        inset 0 0 35px rgba(0,0,0,0.45),
+        0 0 0 5px rgba(174,187,197,0.12);
+    transition: margin 0.9s ease;
+}
+
+.envelope::before {
+    content: "❄";
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    color: rgba(190,207,218,0.65);
+    font-size: 23px;
+    z-index: 6;
+    pointer-events: none;
+}
+
+.envelope::after {
+    content: "❄";
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    color: rgba(190,207,218,0.65);
+    font-size: 23px;
+    z-index: 6;
+    pointer-events: none;
+}
+
+/* LETTER PAPER */
+
+.letter {
+    width: 90%;
+    min-height: 390px;
+    padding: 43px 34px;
+    position: absolute;
+    top: 12px;
+    left: 5%;
+    z-index: 2;
+    color: var(--ink);
+    text-align: left;
+    background:
+        radial-gradient(ellipse at 10% 12%, rgba(130,90,45,0.12), transparent 35%),
+        radial-gradient(ellipse at 90% 88%, rgba(130,90,45,0.13), transparent 35%),
+        repeating-linear-gradient(
+            0deg,
+            rgba(100,70,40,0.025) 0px,
+            rgba(100,70,40,0.025) 1px,
+            transparent 1px,
+            transparent 5px
+        ),
+        linear-gradient(135deg, #f0e3c7, #ddc9a5);
+    border: 1px solid #ad9265;
+    outline: 1px solid rgba(173,146,101,0.5);
+    outline-offset: 5px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+    transition: transform 1.2s ease;
+}
+
+.letter::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(115, 84, 49, 0.65);
+    pointer-events: none;
+}
+
+.letter::after {
+    content: "❧";
+    position: absolute;
+    right: 24px;
+    bottom: 16px;
+    color: rgba(109, 77, 44, 0.65);
+    font-size: 32px;
+}
+
+.letter h2 {
+    margin: 0 0 30px;
+    padding-bottom: 15px;
+    color: #263b4a;
+    font-family: 'IM Fell English', serif;
+    font-size: 32px;
+    font-weight: 400;
+    text-align: center;
+    border-bottom: 1px solid rgba(86,104,116,0.5);
+}
+
+.letter p {
+    margin: 0 0 19px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    line-height: 1.75;
+}
+
+.letter p:first-of-type::first-letter {
+    float: left;
+    padding: 3px 8px 0 0;
+    color: #344c5c;
+    font-family: 'IM Fell English', serif;
+    font-size: 48px;
+    line-height: 0.85;
+}
+
+.letter .letter-signature {
+    margin-top: 30px;
+    color: #263b4a;
+    font-family: 'IM Fell English', serif;
+    font-size: 22px;
+    font-style: italic;
+    text-align: right;
+}
+
+/* ENVELOPE FRONT */
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background:
+        repeating-linear-gradient(
+            135deg,
+            rgba(255,255,255,0.025) 0px,
+            rgba(255,255,255,0.025) 2px,
+            transparent 2px,
+            transparent 8px
+        ),
+        linear-gradient(145deg, #405565, #1b2a36);
+    clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+    border-bottom: 1px solid #aebbc5;
+}
+
+/* ENVELOPE FLAP */
+
+.envelope-flap {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    background:
+        linear-gradient(145deg, #718391, #344957 75%);
+    clip-path: polygon(0 0, 100% 0, 50% 55%);
+    transform-origin: top center;
+    transition:
+        transform 0.9s ease,
+        z-index 0.1s ease 0.45s;
+}
+
+/* NORTHERN WOLF-INSPIRED SEAL */
+
+.envelope-seal {
+    width: 62px;
+    height: 62px;
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    border: 2px solid #c3d0d8;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 35% 30%, #71899a, #263c4b 75%);
+    color: #edf0ed;
+    font-family: 'Cinzel', serif;
+    font-size: 27px;
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.65),
+        inset 0 1px rgba(255,255,255,0.3),
+        0 0 12px rgba(174,187,197,0.2);
+    transition: opacity 0.4s ease;
+}
+
+.envelope-seal::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(220,230,235,0.6);
+    border-radius: 50%;
+}
+
+/* OPEN ENVELOPE */
+
+.envelope.open {
+    margin-top: 220px;
+    margin-bottom: 220px;
+}
+
+.envelope.open .envelope-front {
+    z-index: 0;
+}
+
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+
+.envelope.open .envelope-seal {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.envelope.open .letter {
+    transform: translateY(-220px);
+}
+
+/* HIDDEN ELEMENTS */
+
+[hidden] {
+    display: none !important;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    body {
+        padding: 25px 12px 50px;
+    }
+
+    h1 {
+        font-size: 28px;
+        letter-spacing: 3px;
+    }
+
+    .instruction {
+        margin-bottom: 35px;
+        font-size: 18px;
+    }
+
+    .chess-instruction {
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+
+    .chessboard {
+        border-width: 6px;
+        outline-offset: 3px;
+    }
+
+    .piece-symbol {
+        width: 92%;
+        height: 94%;
+    }
+
+    .move-message {
+        font-size: 18px;
+    }
+
+    .letter-container {
+        margin-top: 40px;
+    }
+
+    .envelope {
+        width: 100%;
+        min-height: 260px;
+    }
+
+    .letter {
+        width: 92%;
+        left: 4%;
+        padding: 32px 22px;
+    }
+
+    .letter h2 {
+        font-size: 26px;
+    }
+
+    .letter p {
+        font-size: 16px;
+    }
+
+    .envelope.open {
+        margin-top: 200px;
+        margin-bottom: 200px;
+    }
+
+    .envelope.open .letter {
+        transform: translateY(-200px);
+    }
+}
+
